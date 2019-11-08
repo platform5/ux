@@ -77,6 +77,7 @@ export class UxTextArea implements UxComponent {
     }
 
     this.autocompleteChanged(this.autocomplete);
+    this.themeChanged(this.theme);
   }
 
   public attached() {

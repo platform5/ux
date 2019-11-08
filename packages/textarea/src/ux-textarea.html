@@ -1,6 +1,8 @@
 <template role="textbox" class="ux-textarea">
   <require from="./ux-textarea.css"></require>
 
+  <label class="ux-textarea__label" if.bind="label || placeholder" click.trigger="focus()">${label || placeholder}</label>
+
   <textarea ref="textbox"
     class="ux-textarea__inner-textarea"
     value.bind="rawValue"

@@ -25,6 +25,7 @@ export class UxTextArea implements UxComponent {
   @bindable public minlength: number;
   @bindable public readonly: boolean | string = false;
   @bindable public rows: number;
+  @bindable public label: any;
   @bindable public theme: UxTextAreaTheme;
   
   @observable public focused: boolean = false;
@@ -53,8 +54,9 @@ export class UxTextArea implements UxComponent {
       const attributeValue = element.getAttribute('placeholder');
 
       if (attributeValue) {
-        textbox.setAttribute('placeholder', attributeValue);
-        element.removeAttribute('placeholder');
+        //textbox.setAttribute('placeholder', attributeValue);
+        //element.removeAttribute('placeholder');
+        this.label = attributeValue;
       }
     }
 

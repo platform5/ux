@@ -19,7 +19,7 @@
 
 .ux-textarea__inner-textarea {
   width: 100%;
-  padding: 6px 0 4px 0;
+  padding: 1.5em 0 4px 0;
   margin-bottom: 4px;
   border: 0;
   outline: none;
@@ -29,6 +29,37 @@
   transition: border-color 250ms ease;
   color: inherit;
   background-color: transparent;
+  font-size: inherit;
+  font-size: var(--aurelia-ux--textarea-font-size, inherit);
+  letter-spacing: inherit;
+  letter-spacing: var(--aurelia-ux--textarea-letter-spacing, inherit);
+}
+
+.ux-textarea__label {
+  position: absolute;
+  align-self: flex-start;
+  top: 1.5em;
+  cursor: text;
+  font-size: 13px;
+  font-size: var(--aurelia-ux--textarea-label-font-size, 13px);
+  letter-spacing: 0.5px;
+  letter-spacing: var(--aurelia-ux--textarea-label-letter-spacing, 0.5px);
+  transition: transform ease 150ms;
+}
+
+.ux-textarea--focused .ux-textarea__label {
+  color: #4043ff;
+  color: var(--aurelia-ux--textarea-border-focus, var(--aurelia-ux--design-primary, #4043ff));
+}
+
+.ux-textarea--has-value .ux-textarea__label,
+.ux-textarea--focused .ux-textarea__label {
+  transform: translateY(-1.3em);
+}
+
+.ux-textarea :not(input) {
+  color: #808080;
+  color: var(--aurelia-ux--textarea-foreground-label, #808080);
 }
 
 .ux-textarea__bottom-border {
@@ -49,4 +80,18 @@
 
 .ux-textarea__inner-textarea:focus+.ux-textarea__bottom-border {
   transform: scalex(1);
+}
+
+.ux-textarea[disabled],
+.ux-textarea[readonly] {
+  color: inherit;
+  color: var(--aurelia-ux--textarea-disabled-foreground, inherit);
+  background-color: #e1e1e1;
+  background-color: var(--aurelia-ux--textarea-disabled-background, #e1e1e1);
+}
+
+.ux-textarea[disabled] .ux-textarea__border-bottom,
+.ux-textarea[readonly] .ux-textarea__border-bottom {
+  background-color: #989898;
+  background-color: var(--aurelia-ux--textarea-disabled-border, #989898);
 }

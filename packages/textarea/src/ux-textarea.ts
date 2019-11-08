@@ -21,12 +21,13 @@ export class UxTextArea implements UxComponent {
   @bindable public autoResize: boolean | string = false;
   @bindable public cols: number;
   @bindable public disabled: boolean | string = false;
-  @bindable public focus: boolean | string = false;
   @bindable public maxlength: number;
   @bindable public minlength: number;
   @bindable public readonly: boolean | string = false;
   @bindable public rows: number;
   @bindable public theme: UxTextAreaTheme;
+  
+  @observable public focused: boolean = false;
 
   @observable({ initializer: () => '' })
   public rawValue: string;
@@ -45,7 +46,7 @@ export class UxTextArea implements UxComponent {
     const textbox = this.textbox;
 
     if (this.autofocus || this.autofocus === '') {
-      this.focus = true;
+      this.focused = true;
     }
 
     if (element.hasAttribute('placeholder')) {
@@ -124,6 +125,12 @@ export class UxTextArea implements UxComponent {
   }
 
   public rawValueChanged(rawValue: string) {
+    if (rawValue.length > 0) {
+      this.element.classList.add('ux-textarea--has-value');
+    } else {
+      this.element.classList.remove('ux-textarea--has-value');
+    }
+
     if (this.ignoreRawChanges) {
       return;
     }
@@ -138,6 +145,16 @@ export class UxTextArea implements UxComponent {
     this.styleEngine.applyTheme(newValue, this.element);
   }
 
+  public focusedChanged(focused: boolean) {
+    if (focused === true) {
+      this.element.classList.add('ux-textarea--focused');
+    } else {
+      this.element.classList.remove('ux-textarea--focused');
+    }
+
+    this.element.dispatchEvent(DOM.createCustomEvent(focused ? 'focus' : 'blur', { bubbles: false }));
+  }
+
   public fitTextContent() {
     if (this.isAttached && (this.autoResize || this.autoResize === '')) {
       this.textbox.style.height = 'auto';
@@ -145,10 +162,14 @@ export class UxTextArea implements UxComponent {
     }
   }
 
-  public focusChanged(focus: boolean | string) {
-    focus = focus || focus === '' ? true : false;
-    this.element.dispatchEvent(DOM.createCustomEvent(focus ? 'focus' : 'blur', { bubbles: true }));
+  public focus() {
+    this.textbox.focus();
   }
+
+  public blur() {
+    if (document.activeElement === this.textbox) this.textbox.blur();
+  }
+
 }
 
 function stopEvent(e: Event) {
@@ -156,13 +177,22 @@ function stopEvent(e: Event) {
 }
 
 const getVm = <T>(_: any) => _.au.controller.viewModel as T;
-const uxTextAreaElementProto = Object.create(HTMLElement.prototype, {
-  value: {
-    get() {
-      return getVm<UxTextArea>(this).getValue();
+const uxTextAreaElementProto = Object.assign(
+  Object.create(HTMLElement.prototype, {
+    value: {
+      get() {
+        return getVm<UxTextArea>(this).getValue();
+      },
+      set(value: any) {
+        getVm<UxTextArea>(this).setValue(value);
+      }
     },
-    set(value: any) {
-      getVm<UxTextArea>(this).setValue(value);
+  }), {
+    focus() {
+      getVm<UxTextArea>(this).focused = true;
+    },
+    blur() {
+      getVm<UxTextArea>(this).focused = false;
     }
   }
-});
+);

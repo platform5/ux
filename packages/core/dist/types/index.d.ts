@@ -6,6 +6,8 @@ export { processDesignAttributes } from './designs/design-attributes';
 export { PaperRipple } from './effects/paper-ripple';
 export { normalizeBooleanAttribute } from './components/html-attributes';
 export { UxComponent } from './components/ux-component';
+export { UxInputComponent } from './components/ux-input-component';
+export { Design } from './designs/design';
 export { UxTheme } from './styles/ux-theme';
 export { StyleEngine } from './styles/style-engine';
 export { GlobalStyle } from './styles/global-style';

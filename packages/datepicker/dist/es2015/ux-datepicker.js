@@ -7,14 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { customElement, bindable, ViewResources } from 'aurelia-templating';
 import { bindingMode, observable, computedFrom } from 'aurelia-binding';
 import { inject } from 'aurelia-dependency-injection';
-import { StyleEngine, normalizeBooleanAttribute } from '@aurelia-ux/core';
+import { StyleEngine, normalizeBooleanAttribute, getBackgroundColorThroughParents } from '@aurelia-ux/core';
 import { DatetimeUtility } from './resources/datetime-utility';
 import { DOM } from 'aurelia-pal';
 import { moment } from './resources/moment-rexports';
 // tslint:disable-next-line: no-submodule-imports
-import '@aurelia-ux/core/styles/ux-input-component.css';
+import '@aurelia-ux/core/components/ux-input-component.css';
 // tslint:disable-next-line: no-submodule-imports
-import '@aurelia-ux/core/styles/ux-input-component--outline.css';
+import '@aurelia-ux/core/components/ux-input-component--outline.css';
 // import UX_DATEPICKER_VIEW from './ux-datepicker.html';
 // import { PLATFORM } from 'aurelia-pal';
 let UxDatepicker = 
@@ -170,22 +170,12 @@ class UxDatepicker {
         this.textbox.focus();
     }
     variantChanged(newValue) {
-        if (newValue === 'outline') {
-            let parentBackgroundColor = '';
-            let el = this.element;
-            while (parentBackgroundColor === '' && el.parentElement) {
-                let color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                    color = '';
-                }
-                parentBackgroundColor = color;
-                el = el.parentElement;
-            }
-            this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-        }
-        else {
-            this.element.style.backgroundColor = '';
-        }
+        this.element.style.backgroundColor = newValue === 'outline' ?
+            this.element.style.backgroundColor = getBackgroundColorThroughParents(this.element) :
+            '';
+    }
+    get placeholderMode() {
+        return typeof this.label !== 'string' || this.label.length === 0;
     }
     get placeholderMode() {
         return typeof this.label !== 'string' || this.label.length === 0;

@@ -1,7 +1,7 @@
 import { StyleEngine, UxInputComponent } from '@aurelia-ux/core';
 import { UxTextAreaTheme } from './ux-textarea-theme';
-import '@aurelia-ux/core/styles/ux-input-component.css';
-import '@aurelia-ux/core/styles/ux-input-component--outline.css';
+import '@aurelia-ux/core/components/ux-input-component.css';
+import '@aurelia-ux/core/components/ux-input-component--outline.css';
 export interface UxTextAreaElement extends HTMLElement {
     value: string;
 }

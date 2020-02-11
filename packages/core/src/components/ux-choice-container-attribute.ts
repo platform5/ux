@@ -1,7 +1,7 @@
 import { UxChoiceAttribute } from './ux-choice-attribute';
 import { customAttribute, bindingMode, bindable, inject, TaskQueue } from 'aurelia-framework';
 
-@customAttribute('ux-choice-container')
+@customAttribute('ux-choice-container', undefined, ['ux-choice-value'])
 @inject(Element, TaskQueue)
 export class UxChoiceContainerAttribute {
 
@@ -38,6 +38,7 @@ export class UxChoiceContainerAttribute {
   }
 
   public bind() {
+    this.element.classList.add('ux-choice-container');
     this.multipleChanged();
     this.valueChanged(this.value);
   }
@@ -54,7 +55,6 @@ export class UxChoiceContainerAttribute {
   }
 
   public attached() {
-    this.element.classList.add('ux-choice-container');
     this.element.addEventListener('click', this);
   }
 
@@ -62,18 +62,23 @@ export class UxChoiceContainerAttribute {
     this.element.removeEventListener('click', this);
   }
 
-  public registerChoice(choice: UxChoiceAttribute) {
-    this.choices.push(choice);
+  private requestProcessValue() {
     if (!this.isQueued) {
       this.isQueued = true;
       this.taskQueue.queueMicroTask(this);
     }
   }
 
+  public registerChoice(choice: UxChoiceAttribute) {
+    this.choices.push(choice);
+    this.requestProcessValue();
+  }
+
   public disposeChoice(choice: UxChoiceAttribute) {
     const index = this.choices.indexOf(choice);
     if (index !== -1) {
       this.choices.splice(index, 1);
+      this.requestProcessValue();
     }
   }
 
@@ -83,10 +88,11 @@ export class UxChoiceContainerAttribute {
     }
     if (this.isMultiple && typeof newValue === 'string') {
       this.value = [];
+      this.requestProcessValue();
     } else if (!this.isMultiple && Array.isArray(newValue)) {
       this.value = undefined;
+      this.requestProcessValue();
     }
-    this.processValue();
   }
 
   public toggleValue(value: string) {
@@ -104,12 +110,15 @@ export class UxChoiceContainerAttribute {
   }
 
   public processValue() {
+    const choicesLength = this.choices.length;
     if (this.isMultiple && Array.isArray(this.value)) {
-      for (const choice of this.choices) {
+      for (let index = 0; index < choicesLength; index++) {
+        const choice = this.choices[index];
         choice.selected = this.value.indexOf(choice.value) !== -1;
       }
     } else if (!this.isMultiple && typeof this.value === 'string') {
-      for (const choice of this.choices) {
+      for (let index = 0; index < choicesLength; index++) {
+        const choice = this.choices[index];
         choice.selected = this.value === choice.value;
       }
     }

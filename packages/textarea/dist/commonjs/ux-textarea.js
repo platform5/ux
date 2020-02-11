@@ -12,9 +12,9 @@ var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
 var core_1 = require("@aurelia-ux/core");
 var aurelia_framework_1 = require("aurelia-framework");
 // tslint:disable-next-line: no-submodule-imports
-require("@aurelia-ux/core/styles/ux-input-component.css");
+require("@aurelia-ux/core/components/ux-input-component.css");
 // tslint:disable-next-line: no-submodule-imports
-require("@aurelia-ux/core/styles/ux-input-component--outline.css");
+require("@aurelia-ux/core/components/ux-input-component--outline.css");
 var UxTextArea = /** @class */ (function () {
     function UxTextArea(element, styleEngine) {
         this.element = element;
@@ -117,22 +117,9 @@ var UxTextArea = /** @class */ (function () {
         this.element.dispatchEvent(aurelia_pal_1.DOM.createCustomEvent(focus ? 'focus' : 'blur', { bubbles: true }));
     };
     UxTextArea.prototype.variantChanged = function (newValue) {
-        if (newValue === 'outline') {
-            var parentBackgroundColor = '';
-            var el = this.element;
-            while (parentBackgroundColor === '' && el.parentElement) {
-                var color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                    color = '';
-                }
-                parentBackgroundColor = color;
-                el = el.parentElement;
-            }
-            this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-        }
-        else {
-            this.element.style.backgroundColor = '';
-        }
+        this.element.style.backgroundColor = newValue === 'outline' ?
+            this.element.style.backgroundColor = core_1.getBackgroundColorThroughParents(this.element) :
+            '';
     };
     Object.defineProperty(UxTextArea.prototype, "placeholderMode", {
         get: function () {

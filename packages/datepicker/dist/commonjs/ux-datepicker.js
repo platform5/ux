@@ -14,9 +14,9 @@ var datetime_utility_1 = require("./resources/datetime-utility");
 var aurelia_pal_1 = require("aurelia-pal");
 var moment_rexports_1 = require("./resources/moment-rexports");
 // tslint:disable-next-line: no-submodule-imports
-require("@aurelia-ux/core/styles/ux-input-component.css");
+require("@aurelia-ux/core/components/ux-input-component.css");
 // tslint:disable-next-line: no-submodule-imports
-require("@aurelia-ux/core/styles/ux-input-component--outline.css");
+require("@aurelia-ux/core/components/ux-input-component--outline.css");
 // import UX_DATEPICKER_VIEW from './ux-datepicker.html';
 // import { PLATFORM } from 'aurelia-pal';
 var UxDatepicker = /** @class */ (function () {
@@ -167,22 +167,9 @@ var UxDatepicker = /** @class */ (function () {
         this.textbox.focus();
     };
     UxDatepicker.prototype.variantChanged = function (newValue) {
-        if (newValue === 'outline') {
-            var parentBackgroundColor = '';
-            var el = this.element;
-            while (parentBackgroundColor === '' && el.parentElement) {
-                var color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                    color = '';
-                }
-                parentBackgroundColor = color;
-                el = el.parentElement;
-            }
-            this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-        }
-        else {
-            this.element.style.backgroundColor = '';
-        }
+        this.element.style.backgroundColor = newValue === 'outline' ?
+            this.element.style.backgroundColor = core_1.getBackgroundColorThroughParents(this.element) :
+            '';
     };
     Object.defineProperty(UxDatepicker.prototype, "placeholderMode", {
         get: function () {

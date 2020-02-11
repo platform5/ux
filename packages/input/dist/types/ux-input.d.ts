@@ -1,7 +1,7 @@
 import { StyleEngine, UxInputComponent } from '@aurelia-ux/core';
 import { UxInputTheme } from './ux-input-theme';
-import '@aurelia-ux/core/styles/ux-input-component.css';
-import '@aurelia-ux/core/styles/ux-input-component--outline.css';
+import '@aurelia-ux/core/components/ux-input-component.css';
+import '@aurelia-ux/core/components/ux-input-component--outline.css';
 export interface UxInputElement extends HTMLElement {
     value: any;
 }

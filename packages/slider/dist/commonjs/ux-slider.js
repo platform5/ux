@@ -92,21 +92,21 @@ var UxSlider = /** @class */ (function () {
             return;
         }
         this.isActive = true;
+        var isMouseEvent = e instanceof MouseEvent;
+        var isTouchEvent = Array.isArray(e.touches) && e.touches.length > 0;
         var winEvents = new aurelia_templating_1.ElementEvents(window);
         var upAction = function (e) {
             if (!_this.isActive) {
                 winEvents.disposeAll();
                 return;
             }
-            var isMouseEvent = e instanceof MouseEvent;
             if (isMouseEvent) {
                 _this.updateValue(e.clientX);
             }
-            var isTouchEvent = e instanceof TouchEvent && e.touches.length > 0;
             if (isTouchEvent) {
                 var touches = e.touches;
                 if (touches.length === 1) {
-                    _this.updateValue(e.touches[0].clientX);
+                    _this.updateValue(touches[0].clientX);
                 }
             }
             _this.isActive = false;
@@ -116,14 +116,14 @@ var UxSlider = /** @class */ (function () {
             if (!_this.isActive) {
                 return;
             }
-            _this.updateValue(e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
+            _this.updateValue(isMouseEvent ? e.clientX : e.touches[0].clientX);
         };
         winEvents.subscribe('blur', upAction, true);
-        if (e instanceof MouseEvent) {
+        if (isMouseEvent) {
             winEvents.subscribe('mouseup', upAction, true);
             winEvents.subscribe('mousemove', moveAction, true);
         }
-        else if (e instanceof TouchEvent) {
+        else if (isTouchEvent) {
             winEvents.subscribe('touchend', upAction, true);
             winEvents.subscribe('touchmove', moveAction, true);
         }

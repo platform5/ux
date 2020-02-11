@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "aurelia-templating", "aurelia-binding", "aurelia-dependency-injection", "@aurelia-ux/core", "./resources/datetime-utility", "aurelia-pal", "./resources/moment-rexports", "@aurelia-ux/core/styles/ux-input-component.css", "@aurelia-ux/core/styles/ux-input-component--outline.css"], function (require, exports, aurelia_templating_1, aurelia_binding_1, aurelia_dependency_injection_1, core_1, datetime_utility_1, aurelia_pal_1, moment_rexports_1) {
+define(["require", "exports", "aurelia-templating", "aurelia-binding", "aurelia-dependency-injection", "@aurelia-ux/core", "./resources/datetime-utility", "aurelia-pal", "./resources/moment-rexports", "@aurelia-ux/core/components/ux-input-component.css", "@aurelia-ux/core/components/ux-input-component--outline.css"], function (require, exports, aurelia_templating_1, aurelia_binding_1, aurelia_dependency_injection_1, core_1, datetime_utility_1, aurelia_pal_1, moment_rexports_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // import UX_DATEPICKER_VIEW from './ux-datepicker.html';
@@ -157,22 +157,9 @@ define(["require", "exports", "aurelia-templating", "aurelia-binding", "aurelia-
             this.textbox.focus();
         };
         UxDatepicker.prototype.variantChanged = function (newValue) {
-            if (newValue === 'outline') {
-                var parentBackgroundColor = '';
-                var el = this.element;
-                while (parentBackgroundColor === '' && el.parentElement) {
-                    var color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                    if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                        color = '';
-                    }
-                    parentBackgroundColor = color;
-                    el = el.parentElement;
-                }
-                this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-            }
-            else {
-                this.element.style.backgroundColor = '';
-            }
+            this.element.style.backgroundColor = newValue === 'outline' ?
+                this.element.style.backgroundColor = core_1.getBackgroundColorThroughParents(this.element) :
+                '';
         };
         Object.defineProperty(UxDatepicker.prototype, "placeholderMode", {
             get: function () {

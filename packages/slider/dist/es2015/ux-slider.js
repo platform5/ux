@@ -81,21 +81,21 @@ let UxSlider = class UxSlider {
             return;
         }
         this.isActive = true;
+        const isMouseEvent = e instanceof MouseEvent;
+        const isTouchEvent = Array.isArray(e.touches) && e.touches.length > 0;
         const winEvents = new ElementEvents(window);
         const upAction = (e) => {
             if (!this.isActive) {
                 winEvents.disposeAll();
                 return;
             }
-            const isMouseEvent = e instanceof MouseEvent;
             if (isMouseEvent) {
                 this.updateValue(e.clientX);
             }
-            const isTouchEvent = e instanceof TouchEvent && e.touches.length > 0;
             if (isTouchEvent) {
                 const touches = e.touches;
                 if (touches.length === 1) {
-                    this.updateValue(e.touches[0].clientX);
+                    this.updateValue(touches[0].clientX);
                 }
             }
             this.isActive = false;
@@ -105,14 +105,14 @@ let UxSlider = class UxSlider {
             if (!this.isActive) {
                 return;
             }
-            this.updateValue(e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
+            this.updateValue(isMouseEvent ? e.clientX : e.touches[0].clientX);
         };
         winEvents.subscribe('blur', upAction, true);
-        if (e instanceof MouseEvent) {
+        if (isMouseEvent) {
             winEvents.subscribe('mouseup', upAction, true);
             winEvents.subscribe('mousemove', moveAction, true);
         }
-        else if (e instanceof TouchEvent) {
+        else if (isTouchEvent) {
             winEvents.subscribe('touchend', upAction, true);
             winEvents.subscribe('touchmove', moveAction, true);
         }

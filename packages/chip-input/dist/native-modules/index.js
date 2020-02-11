@@ -8,9 +8,7 @@ export function configure(config) {
     config.globalResources([
         PLATFORM.moduleName('./ux-chip-input'),
         PLATFORM.moduleName('./ux-chip-list'),
-        PLATFORM.moduleName('./ux-chip'),
-        PLATFORM.moduleName('./ux-choice-attribute'),
-        PLATFORM.moduleName('./ux-choice-container-attribute')
+        PLATFORM.moduleName('./ux-chip')
     ]);
 }
 //# sourceMappingURL=index.js.map

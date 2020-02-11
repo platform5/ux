@@ -11,9 +11,9 @@ var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
 var core_1 = require("@aurelia-ux/core");
 // tslint:disable-next-line: no-submodule-imports
-require("@aurelia-ux/core/styles/ux-input-component.css");
+require("@aurelia-ux/core/components/ux-input-component.css");
 // tslint:disable-next-line: no-submodule-imports
-require("@aurelia-ux/core/styles/ux-input-component--outline.css");
+require("@aurelia-ux/core/components/ux-input-component--outline.css");
 var UxChipInput = /** @class */ (function () {
     function UxChipInput(element, styleEngine) {
         this.element = element;
@@ -146,22 +146,9 @@ var UxChipInput = /** @class */ (function () {
         this.styleEngine.applyTheme(newValue, this.element);
     };
     UxChipInput.prototype.variantChanged = function (newValue) {
-        if (newValue === 'outline') {
-            var parentBackgroundColor = '';
-            var el = this.element;
-            while (parentBackgroundColor === '' && el.parentElement) {
-                var color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                    color = '';
-                }
-                parentBackgroundColor = color;
-                el = el.parentElement;
-            }
-            this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-        }
-        else {
-            this.element.style.backgroundColor = '';
-        }
+        this.element.style.backgroundColor = newValue === 'outline' ?
+            this.element.style.backgroundColor = core_1.getBackgroundColorThroughParents(this.element) :
+            '';
     };
     Object.defineProperty(UxChipInput.prototype, "placeholderMode", {
         get: function () {

@@ -8,11 +8,11 @@ import { customElement, bindable } from 'aurelia-templating';
 import { DOM } from 'aurelia-pal';
 import { observable, computedFrom } from 'aurelia-binding';
 import { inject } from 'aurelia-dependency-injection';
-import { StyleEngine, normalizeBooleanAttribute } from '@aurelia-ux/core';
+import { StyleEngine, normalizeBooleanAttribute, getBackgroundColorThroughParents } from '@aurelia-ux/core';
 // tslint:disable-next-line: no-submodule-imports
-import '@aurelia-ux/core/styles/ux-input-component.css';
+import '@aurelia-ux/core/components/ux-input-component.css';
 // tslint:disable-next-line: no-submodule-imports
-import '@aurelia-ux/core/styles/ux-input-component--outline.css';
+import '@aurelia-ux/core/components/ux-input-component--outline.css';
 var UxInput = /** @class */ (function () {
     function UxInput(element, styleEngine) {
         this.element = element;
@@ -152,22 +152,9 @@ var UxInput = /** @class */ (function () {
         this.textbox.focus();
     };
     UxInput.prototype.variantChanged = function (newValue) {
-        if (newValue === 'outline') {
-            var parentBackgroundColor = '';
-            var el = this.element;
-            while (parentBackgroundColor === '' && el.parentElement) {
-                var color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                    color = '';
-                }
-                parentBackgroundColor = color;
-                el = el.parentElement;
-            }
-            this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-        }
-        else {
-            this.element.style.backgroundColor = '';
-        }
+        this.element.style.backgroundColor = newValue === 'outline' ?
+            this.element.style.backgroundColor = getBackgroundColorThroughParents(this.element) :
+            '';
     };
     Object.defineProperty(UxInput.prototype, "placeholderMode", {
         get: function () {

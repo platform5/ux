@@ -3,8 +3,8 @@ import { StyleEngine, UxInputComponent } from '@aurelia-ux/core';
 import { UxSelectTheme } from './ux-select-theme';
 import { UxOptGroupElement } from './ux-optgroup';
 import { UxOptionElement } from './ux-option';
-import '@aurelia-ux/core/styles/ux-input-component.css';
-import '@aurelia-ux/core/styles/ux-input-component--outline.css';
+import '@aurelia-ux/core/components/ux-input-component.css';
+import '@aurelia-ux/core/components/ux-input-component--outline.css';
 declare module './ux-option' {
     interface UxOption {
         uxSelect: UxSelect;

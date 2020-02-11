@@ -2,8 +2,8 @@ import { ViewResources } from 'aurelia-templating';
 import { StyleEngine, UxInputComponent } from '@aurelia-ux/core';
 import { DatepickerSettings } from './resources/datepicker-settings';
 import { UxDatepickerTheme } from './ux-datepicker-theme';
-import '@aurelia-ux/core/styles/ux-input-component.css';
-import '@aurelia-ux/core/styles/ux-input-component--outline.css';
+import '@aurelia-ux/core/components/ux-input-component.css';
+import '@aurelia-ux/core/components/ux-input-component--outline.css';
 export declare class UxDatepicker implements UxInputComponent {
     element: HTMLElement;
     resources: ViewResources;

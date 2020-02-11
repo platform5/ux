@@ -9,9 +9,7 @@ define(["require", "exports", "aurelia-framework", "./ux-chip", "./ux-chip-input
         config.globalResources([
             aurelia_framework_1.PLATFORM.moduleName('./ux-chip-input'),
             aurelia_framework_1.PLATFORM.moduleName('./ux-chip-list'),
-            aurelia_framework_1.PLATFORM.moduleName('./ux-chip'),
-            aurelia_framework_1.PLATFORM.moduleName('./ux-choice-attribute'),
-            aurelia_framework_1.PLATFORM.moduleName('./ux-choice-container-attribute')
+            aurelia_framework_1.PLATFORM.moduleName('./ux-chip')
         ]);
     }
     exports.configure = configure;

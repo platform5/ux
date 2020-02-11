@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "aurelia-templating", "aurelia-pal", "aurelia-dependency-injection", "@aurelia-ux/core", "aurelia-framework", "@aurelia-ux/core/styles/ux-input-component.css", "@aurelia-ux/core/styles/ux-input-component--outline.css"], function (require, exports, aurelia_templating_1, aurelia_pal_1, aurelia_dependency_injection_1, core_1, aurelia_framework_1) {
+define(["require", "exports", "aurelia-templating", "aurelia-pal", "aurelia-dependency-injection", "@aurelia-ux/core", "aurelia-framework", "@aurelia-ux/core/components/ux-input-component.css", "@aurelia-ux/core/components/ux-input-component--outline.css"], function (require, exports, aurelia_templating_1, aurelia_pal_1, aurelia_dependency_injection_1, core_1, aurelia_framework_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var UxTextArea = /** @class */ (function () {
@@ -109,22 +109,9 @@ define(["require", "exports", "aurelia-templating", "aurelia-pal", "aurelia-depe
             this.element.dispatchEvent(aurelia_pal_1.DOM.createCustomEvent(focus ? 'focus' : 'blur', { bubbles: true }));
         };
         UxTextArea.prototype.variantChanged = function (newValue) {
-            if (newValue === 'outline') {
-                var parentBackgroundColor = '';
-                var el = this.element;
-                while (parentBackgroundColor === '' && el.parentElement) {
-                    var color = window.getComputedStyle(el.parentElement, null).getPropertyValue('background-color');
-                    if (color.toString() === 'rgba(0, 0, 0, 0)') {
-                        color = '';
-                    }
-                    parentBackgroundColor = color;
-                    el = el.parentElement;
-                }
-                this.element.style.backgroundColor = parentBackgroundColor || '#FFFFFF';
-            }
-            else {
-                this.element.style.backgroundColor = '';
-            }
+            this.element.style.backgroundColor = newValue === 'outline' ?
+                this.element.style.backgroundColor = core_1.getBackgroundColorThroughParents(this.element) :
+                '';
         };
         Object.defineProperty(UxTextArea.prototype, "placeholderMode", {
             get: function () {

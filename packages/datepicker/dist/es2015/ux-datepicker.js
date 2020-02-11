@@ -177,9 +177,6 @@ class UxDatepicker {
     get placeholderMode() {
         return typeof this.label !== 'string' || this.label.length === 0;
     }
-    get placeholderMode() {
-        return typeof this.label !== 'string' || this.label.length === 0;
-    }
 };
 __decorate([
     bindable
